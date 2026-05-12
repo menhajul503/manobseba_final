@@ -7,11 +7,11 @@ export default function Sidebar() {
   const navigate = useNavigate()
 
   const menuItems = [
-    { path: '/', label: 'Dashboard', icon: LayoutDashboard },
-    { path: '/members', label: 'Members', icon: Users },
-    { path: '/donations', label: 'Donations', icon: Gift },
-    { path: '/distributions', label: 'Distributions', icon: Share2 },
-    { path: '/notices', label: 'Notice Board', icon: Bell }
+    { path: '/app', label: 'Dashboard', icon: LayoutDashboard },
+    { path: '/app/members', label: 'Members', icon: Users },
+    { path: '/app/donations', label: 'Donations', icon: Gift },
+    { path: '/app/distributions', label: 'Distributions', icon: Share2 },
+    { path: '/app/notices', label: 'Notice Board', icon: Bell }
   ]
 
   const handleLogout = () => {

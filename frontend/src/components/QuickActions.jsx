@@ -9,25 +9,25 @@ export default function QuickActions() {
       icon: Gift,
       label: 'Record Donation',
       color: 'bg-blue-100 text-blue-600',
-      action: () => navigate('/donations')
+      action: () => navigate('/app/donations')
     },
     {
       icon: Users,
       label: 'Add Member',
       color: 'bg-green-100 text-primary-green',
-      action: () => navigate('/members/add')
+      action: () => navigate('/app/members/add')
     },
     {
       icon: FileText,
       label: 'Create Notice',
       color: 'bg-orange-100 text-orange-600',
-      action: () => navigate('/notices')
+      action: () => navigate('/app/notices')
     },
     {
       icon: Plus,
       label: 'New Distribution',
       color: 'bg-purple-100 text-purple-600',
-      action: () => navigate('/distributions')
+      action: () => navigate('/app/distributions')
     }
   ]
 

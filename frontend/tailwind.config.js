@@ -8,22 +8,28 @@ export default {
     extend: {
       colors: {
         primary: {
-          green: "#2D8A56",
-          light: "#F0F9F4",
+          green: "#064E3B",
+          light: "#F9FAFB",
           dark: "#1F5E3A"
+        },
+        accent: {
+          gold: "#D4AF37"
         },
         slate: {
           gray: "#64748B"
-        }
+        },
+        offwhite: "#F9FAFB"
       },
       fontFamily: {
-        sans: ['Inter', 'Outfit', 'sans-serif']
+        sans: ['Inter', 'Outfit', 'sans-serif'],
+        serif: ['Playfair Display', 'serif']
       },
       borderRadius: {
-        xl: "1rem"
+        xl: "1rem",
+        '3xl': '2rem'
       },
       boxShadow: {
-        soft: "0 2px 8px rgba(0, 0, 0, 0.08)"
+        soft: "0 24px 80px rgba(6, 78, 59, 0.08)"
       }
     }
   },

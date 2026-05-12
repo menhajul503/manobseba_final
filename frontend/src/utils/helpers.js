@@ -61,6 +61,14 @@ export const formatNumber = (num) => {
   return num.toLocaleString('en-US')
 }
 
+export const getDonationHistory = () => {
+  return [
+    { id: 1, receiptId: 'RCP-2024-A1B2C3D4', donor: 'Md. Rahman', amount: 5000, method: 'Cash', date: '2024-05-12' },
+    { id: 2, receiptId: 'RCP-2024-E5F6G7H8', donor: 'Nasim Khan', amount: 3000, method: 'bKash', date: '2024-05-10' },
+    { id: 3, receiptId: 'RCP-2024-I9J0K1L2', donor: 'Sadia Akter', amount: 4500, method: 'Nagad', date: '2024-05-08' }
+  ]
+}
+
 // Get initials from name
 export const getInitials = (name) => {
   if (!name) return 'NA'
@@ -112,42 +120,3 @@ export const getMemberCode = (id) => {
   return `MS${String(id).padStart(3, '0')}`
 }
 
-// Check if user is authenticated
-export const isAuthenticated = () => {
-  return !!localStorage.getItem('authToken')
-}
-
-// Get user from localStorage
-export const getUser = () => {
-  const user = localStorage.getItem('user')
-  return user ? JSON.parse(user) : null
-}
-
-// Get token
-export const getToken = () => {
-  return localStorage.getItem('authToken')
-}
-
-// Check if user is admin
-export const isAdmin = () => {
-  const user = getUser()
-  return user?.role === 'admin'
-}
-
-// Debounce function for search
-export const debounce = (func, wait) => {
-  let timeout
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout)
-      func(...args)
-    }
-    clearTimeout(timeout)
-    timeout = setTimeout(later, wait)
-  }
-}
-
-// Deep copy object
-export const deepCopy = (obj) => {
-  return JSON.parse(JSON.stringify(obj))
-}
