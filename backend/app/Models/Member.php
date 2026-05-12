@@ -17,6 +17,8 @@ class Member extends Model
         'village',
         'address',
         'status',
+        'role',
+        'image',
         'join_date',
         'total_contribution',
         'notes'

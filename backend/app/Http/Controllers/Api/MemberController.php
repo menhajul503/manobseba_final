@@ -8,9 +8,10 @@ use Illuminate\Http\JsonResponse;
 
 class MemberController
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $members = Member::with('user')->paginate(15);
+        $perPage = (int) $request->query('per_page', 100);
+        $members = Member::with('user')->paginate($perPage);
         return response()->json([
             'success' => true,
             'data' => $members
@@ -37,15 +38,21 @@ class MemberController
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:members',
             'phone' => 'nullable|string|max:20',
             'village' => 'required|string|max:100',
             'address' => 'nullable|string',
+            'status' => 'sometimes|in:Active,Inactive',
+            'role' => 'sometimes|in:Support,Admin',
+            'image' => 'nullable|string',
             'join_date' => 'required|date',
             'notes' => 'nullable|string'
         ]);
+
+        $validated['user_id'] = auth()->id();
+        $validated['status'] = $validated['status'] ?? 'Active';
+        $validated['role'] = $validated['role'] ?? 'Support';
 
         $member = Member::create($validated);
 
@@ -74,6 +81,8 @@ class MemberController
             'village' => 'sometimes|string|max:100',
             'address' => 'nullable|string',
             'status' => 'sometimes|in:Active,Inactive',
+            'role' => 'sometimes|in:Support,Admin',
+            'image' => 'nullable|string',
             'notes' => 'nullable|string'
         ]);
 
@@ -105,9 +114,10 @@ class MemberController
         ]);
     }
 
-    public function getByVillage($village): JsonResponse
+    public function getByVillage(Request $request, $village): JsonResponse
     {
-        $members = Member::where('village', $village)->paginate(15);
+        $perPage = (int) $request->query('per_page', 100);
+        $members = Member::where('village', $village)->paginate($perPage);
         return response()->json([
             'success' => true,
             'data' => $members

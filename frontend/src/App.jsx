@@ -5,6 +5,9 @@ import DashboardLayout from './layouts/DashboardLayout'
 import LoginPage from './pages/LoginPage'
 import Dashboard from './pages/Dashboard'
 import Members from './pages/Members'
+import AddMember from './pages/AddMember'
+import EditMember from './pages/EditMember'
+import MemberDetail from './pages/MemberDetail'
 import Donations from './pages/Donations'
 import Distributions from './pages/Distributions'
 import NoticeBoard from './pages/NoticeBoard'
@@ -23,6 +26,9 @@ export default function App() {
           <Route element={<DashboardLayout />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/members" element={<Members />} />
+            <Route path="/members/add" element={<AddMember />} />
+            <Route path="/members/:id/edit" element={<EditMember />} />
+            <Route path="/members/:id" element={<MemberDetail />} />
             <Route path="/donations" element={<Donations />} />
             <Route path="/distributions" element={<Distributions />} />
             <Route path="/notices" element={<NoticeBoard />} />

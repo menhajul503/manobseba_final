@@ -15,7 +15,7 @@ export default function QuickActions() {
       icon: Users,
       label: 'Add Member',
       color: 'bg-green-100 text-primary-green',
-      action: () => navigate('/members')
+      action: () => navigate('/members/add')
     },
     {
       icon: FileText,

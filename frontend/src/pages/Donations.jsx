@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Gift, TrendingUp, Filter, Search } from 'lucide-react'
+import { getDonationHistory, formatCurrency } from '../utils/helpers'
 
 export default function Donations() {
   const [formData, setFormData] = useState({
@@ -13,15 +14,7 @@ export default function Donations() {
   const [searchTerm, setSearchTerm] = useState('')
   const [filterMethod, setFilterMethod] = useState('all')
 
-  // Sample donation history
-  const donationHistory = [
-    { id: 'DN001', donor: 'Md. Ahmed Hassan', amount: '৳5,000', method: 'bKash', date: '2024-05-12 10:30 AM', receiptId: 'RCP-2024-001' },
-    { id: 'DN002', donor: 'Fatima Begum', amount: '৳3,500', method: 'Nagad', date: '2024-05-11 02:15 PM', receiptId: 'RCP-2024-002' },
-    { id: 'DN003', donor: 'Nasrin Ahmed', amount: '৳2,000', method: 'Cash', date: '2024-05-10 09:00 AM', receiptId: 'RCP-2024-003' },
-    { id: 'DN004', donor: 'Hasan Ali', amount: '৳4,500', method: 'bKash', date: '2024-05-09 03:45 PM', receiptId: 'RCP-2024-004' },
-    { id: 'DN005', donor: 'Zainab Khan', amount: '৳3,000', method: 'Cash', date: '2024-05-08 11:20 AM', receiptId: 'RCP-2024-005' },
-    { id: 'DN006', donor: 'Karim Uddin', amount: '৳2,500', method: 'Nagad', date: '2024-05-07 05:10 PM', receiptId: 'RCP-2024-006' }
-  ]
+  const donationHistory = getDonationHistory()
 
   const paymentMethods = ['Cash', 'bKash', 'Nagad']
 
@@ -204,7 +197,7 @@ export default function Donations() {
                     <tr key={donation.id} className="border-b border-gray-100 hover:bg-primary-light transition-all">
                       <td className="py-3 px-4 font-medium text-slate-900">{donation.receiptId}</td>
                       <td className="py-3 px-4 text-slate-700">{donation.donor}</td>
-                      <td className="py-3 px-4 text-right font-semibold text-slate-900">{donation.amount}</td>
+                      <td className="py-3 px-4 text-right font-semibold text-slate-900">{formatCurrency(donation.amount)}</td>
                       <td className="py-3 px-4">
                         <span className={`badge ${getPaymentMethodColor(donation.method)}`}>
                           {donation.method}

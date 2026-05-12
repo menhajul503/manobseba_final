@@ -79,4 +79,12 @@ body {
   .badge-notice {
     @apply bg-orange-100 text-orange-600;
   }
+
+  .alert-success {
+    @apply bg-green-50 border border-green-200 text-primary-green rounded-xl px-5 py-4;
+  }
+
+  .alert-danger {
+    @apply bg-red-50 border border-red-200 text-red-700 rounded-xl px-5 py-4;
+  }
 }

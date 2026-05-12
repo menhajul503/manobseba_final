@@ -106,3 +106,48 @@ export const debounce = (func, wait) => {
 export const deepCopy = (obj) => {
   return JSON.parse(JSON.stringify(obj))
 }
+
+export const getMemberCode = (id) => {
+  if (!id) return 'MS000'
+  return `MS${String(id).padStart(3, '0')}`
+}
+
+// Check if user is authenticated
+export const isAuthenticated = () => {
+  return !!localStorage.getItem('authToken')
+}
+
+// Get user from localStorage
+export const getUser = () => {
+  const user = localStorage.getItem('user')
+  return user ? JSON.parse(user) : null
+}
+
+// Get token
+export const getToken = () => {
+  return localStorage.getItem('authToken')
+}
+
+// Check if user is admin
+export const isAdmin = () => {
+  const user = getUser()
+  return user?.role === 'admin'
+}
+
+// Debounce function for search
+export const debounce = (func, wait) => {
+  let timeout
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout)
+      func(...args)
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+  }
+}
+
+// Deep copy object
+export const deepCopy = (obj) => {
+  return JSON.parse(JSON.stringify(obj))
+}
