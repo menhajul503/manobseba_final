@@ -1,12 +1,7 @@
 import { BarChart3 } from 'lucide-react'
 
-export default function IncomeVsExpenseChart() {
-  // Sample data
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May']
-  const incomeData = [45000, 52000, 48000, 61000, 58000]
-  const expenseData = [28000, 35000, 32000, 41000, 38000]
-  
-  const maxValue = Math.max(...incomeData, ...expenseData)
+export default function IncomeVsExpenseChart({ months = ['Jan', 'Feb', 'Mar', 'Apr', 'May'], incomeData = [45000, 52000, 48000, 61000, 58000], expenseData = [28000, 35000, 32000, 41000, 38000] }) {
+  const maxValue = Math.max(...incomeData, ...expenseData, 1)
   const scale = 100 / maxValue
 
   return (
@@ -30,12 +25,12 @@ export default function IncomeVsExpenseChart() {
               <div className="flex-1 space-y-1">
                 <div className="flex justify-between items-center">
                   <span className="text-xs font-medium text-slate-700">Income</span>
-                  <span className="text-xs font-semibold text-green-600">৳{incomeData[idx].toLocaleString()}</span>
+                  <span className="text-xs font-semibold text-green-600">৳{Number(incomeData[idx] || 0).toLocaleString()}</span>
                 </div>
                 <div className="bg-primary-light rounded-full h-3 overflow-hidden">
                   <div
                     className="bg-primary-green rounded-full h-full transition-all"
-                    style={{ width: `${incomeData[idx] * scale}%` }}
+                    style={{ width: `${(Number(incomeData[idx] || 0) * scale) || 0}%` }}
                   />
                 </div>
               </div>
@@ -44,12 +39,12 @@ export default function IncomeVsExpenseChart() {
               <div className="flex-1 space-y-1">
                 <div className="flex justify-between items-center">
                   <span className="text-xs font-medium text-slate-700">Expense</span>
-                  <span className="text-xs font-semibold text-orange-600">৳{expenseData[idx].toLocaleString()}</span>
+                  <span className="text-xs font-semibold text-orange-600">৳{Number(expenseData[idx] || 0).toLocaleString()}</span>
                 </div>
                 <div className="bg-primary-light rounded-full h-3 overflow-hidden">
                   <div
                     className="bg-orange-500 rounded-full h-full transition-all"
-                    style={{ width: `${expenseData[idx] * scale}%` }}
+                    style={{ width: `${(Number(expenseData[idx] || 0) * scale) || 0}%` }}
                   />
                 </div>
               </div>

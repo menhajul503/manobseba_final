@@ -21,7 +21,7 @@ export default function LoginPage({ setIsAuthenticated }) {
       localStorage.setItem('authToken', response.data.token)
       localStorage.setItem('user', JSON.stringify(response.data.user))
       setIsAuthenticated(true)
-      navigate('/')
+      navigate('/app')
     } catch (err) {
       setError(err.message || 'Login failed. Please try again.')
     } finally {
@@ -140,7 +140,7 @@ export default function LoginPage({ setIsAuthenticated }) {
             <div className="mt-6 pt-6 border-t border-gray-200">
               <p className="text-center text-sm text-slate-gray">
                 Don't have an account?{' '}
-                <a href="#" className="text-primary-green font-medium hover:text-primary-dark">
+                <a href="/register" className="text-primary-green font-medium hover:text-primary-dark">
                   Sign up as member
                 </a>
               </p>

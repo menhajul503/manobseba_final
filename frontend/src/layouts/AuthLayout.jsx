@@ -1,9 +1,7 @@
-import { Outlet } from 'react-router-dom'
-
-export default function AuthLayout() {
+export default function AuthLayout({ children }) {
   return (
     <div className="min-h-screen bg-primary-light">
-      <Outlet />
+      {children}
     </div>
   )
 }

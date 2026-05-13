@@ -13,22 +13,31 @@ const apiClient = {
       headers['Authorization'] = `Bearer ${token}`
     }
 
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      ...options,
-      headers
-    })
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        ...options,
+        headers
+      })
 
-    if (response.status === 401) {
-      localStorage.removeItem('authToken')
-      window.location.href = '/login'
+      if (response.status === 401) {
+        localStorage.removeItem('authToken')
+        window.location.href = '/login'
+      }
+
+      const data = await response.json()
+      if (!response.ok) {
+        const error = new Error(data.message || 'API request failed')
+        error.response = { data, status: response.status }
+        throw error
+      }
+
+      return data
+    } catch (err) {
+      if (err instanceof TypeError) {
+        throw new Error('Failed to connect to server. Please ensure the backend is running.')
+      }
+      throw err
     }
-
-    const data = await response.json()
-    if (!response.ok) {
-      throw new Error(data.message || 'API request failed')
-    }
-
-    return data
   },
 
   get(endpoint) {

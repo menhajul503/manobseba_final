@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +15,7 @@ class AuthController
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
+            'phone' => 'required|string|max:20',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
@@ -22,6 +24,18 @@ class AuthController
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'role' => 'member',
+            'is_active' => true,
+        ]);
+
+        // Create associated member record
+        Member::create([
+            'user_id' => $user->id,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'village' => 'Not Specified',
+            'status' => 'Active',
+            'join_date' => now()->toDateString(),
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
