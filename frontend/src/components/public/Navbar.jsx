@@ -32,9 +32,10 @@ export default function Navbar() {
             <Link
               key={link.href}
               to={link.href}
-              className="text-sm font-medium text-slate-700 transition hover:text-[#064E3B]"
+              className="relative text-sm font-medium text-slate-700 transition hover:text-[#064E3B]"
             >
-              {link.label}
+              <span className="inline-block pb-1">{link.label}</span>
+              <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-gradient-to-r from-[#D4AF37] to-[#c39f26] transition-all group-hover:w-full" />
             </Link>
           ))}
         </nav>

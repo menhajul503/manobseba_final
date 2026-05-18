@@ -7,10 +7,14 @@ use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\DonationController;
 use App\Http\Controllers\Api\DistributionController;
 use App\Http\Controllers\Api\NoticeController;
+use App\Http\Controllers\Api\MediaController;
+use App\Http\Controllers\Api\PublicController;
 
 // Public routes
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+Route::get('/media', [MediaController::class, 'index']);
+Route::get('/home', [PublicController::class, 'index']);
 
 // Protected routes (require authentication)
 Route::middleware('auth:sanctum')->group(function () {

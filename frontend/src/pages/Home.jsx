@@ -1,13 +1,35 @@
-import { motion } from 'framer-motion'
+import { motion, useAnimation } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import apiClient from '../api/client'
+import MarqueeBar from '../components/public/MarqueeBar'
 import HeroSlider from '../components/public/HeroSlider'
+import MemberLoop from '../components/public/MemberLoop'
 import StatsSection from '../components/public/StatsSection'
 import ServicesSection from '../components/public/ServicesSection'
+import MediaGallery from '../components/public/MediaGallery'
 import Footer from '../components/public/Footer'
 
 export default function Home() {
+  const [data, setData] = useState({})
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let mounted = true
+    apiClient.get('/home')
+      .then((res) => {
+        if (!mounted) return
+        setData(res)
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+
+    return () => { mounted = false }
+  }, [])
+
   return (
-    <div className="relative">
-      <HeroSlider />
+    <div className="relative islamic-pattern bg-ivory-50">
+      <MarqueeBar notices={data.notices || []} />
+      <HeroSlider slides={data.slides || undefined} />
       <section className="bg-[#F9FAFB] py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mb-12 grid gap-8 lg:grid-cols-2 lg:items-center">
@@ -44,7 +66,10 @@ export default function Home() {
           <StatsSection />
         </div>
       </section>
+      <MemberLoop members={data.members || undefined} />
       <ServicesSection />
+      <MediaGallery />
+      <StatsSection stats={data.stats || undefined} />
       <Footer />
     </div>
   )
