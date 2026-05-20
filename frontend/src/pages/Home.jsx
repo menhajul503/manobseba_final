@@ -27,8 +27,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="relative islamic-pattern bg-ivory-50">
-      <MarqueeBar notices={data.notices || []} />
+    <div className="relative islamic-pattern bg-ivory-50">    
       <HeroSlider slides={data.slides || undefined} />
       <section className="bg-[#F9FAFB] py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">

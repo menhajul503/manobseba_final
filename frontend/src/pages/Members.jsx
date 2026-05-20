@@ -72,7 +72,7 @@ export default function Members() {
           </div>
           <button
             type="button"
-            onClick={() => navigate('/members/add')}
+            onClick={() => navigate('/app/members/add')}
             className="btn-primary flex items-center gap-2"
           >
             <Plus className="w-5 h-5" />

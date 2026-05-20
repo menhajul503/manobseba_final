@@ -92,7 +92,7 @@ export default function AddMember() {
         </div>
         <button
           type="button"
-          onClick={() => navigate('/members')}
+          onClick={() => navigate('/app/members')}
           className="btn-secondary flex items-center gap-2"
         >
           <ArrowLeft className="w-4 h-4" />

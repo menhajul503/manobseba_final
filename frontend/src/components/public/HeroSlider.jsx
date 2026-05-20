@@ -9,19 +9,19 @@ const defaultSlides = [
   {
     title: 'Strengthening Communities Through Compassionate Care',
     description: 'Join Manobseba in providing essential support to families and mosques across the region.',
-    image: 'https://images.unsplash.com/photo-1500336624523-d727130c3328?auto=format&fit=crop&w=2000&q=80'
+    image: 'http://localhost:8000/storage/images/slide1.jpg'
   },
   {
     title: 'A Noble Path to Charity and Service',
     description: 'Your donation helps fund zakat distribution, education and emergency support.',
-    image: 'https://images.unsplash.com/photo-1553142355-77f16dbba4ab?auto=format&fit=crop&w=2000&q=80'
+    image: 'http://localhost:8000/storage/images/slide2.jpg'
   }
 ]
 
 export default function HeroSlider({ slides }) {
   const slidesToUse = slides && slides.length ? slides : defaultSlides
   return (
-    <section className="relative overflow-hidden bg-ivory-50">
+    <section className="relative overflow-hidden bg-ivory-100">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(6,78,59,0.06),_transparent_20%)]" />
       </div>
