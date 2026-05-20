@@ -24,28 +24,47 @@ class AuthController
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'role' => 'member',
-            'is_active' => true,
+            'is_active' => false, // inactive until admin approves
         ]);
 
-        // Create associated member record
-        Member::create([
+        // Create associated member record in pending status
+        $memberData = [
             'user_id' => $user->id,
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'],
             'village' => 'Not Specified',
-            'status' => 'Active',
+            'status' => 'Pending',
             'join_date' => now()->toDateString(),
-        ]);
+        ];
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // Optional parent/extra fields
+        foreach (['father_name', 'father_name_en', 'mother_name', 'mother_name_en', 'emergency_contact'] as $f) {
+            if ($request->filled($f)) {
+                $memberData[$f] = $request->input($f);
+            }
+        }
+
+        $member = Member::create($memberData);
+
+        // Notify all admins and sub-admins about new pending member
+        try {
+            $admins = User::whereIn('role', ['admin', 'sub-admin'])->get();
+            if ($admins->isNotEmpty()) {
+                foreach ($admins as $admin) {
+                    $admin->notify(new \App\Notifications\NewMemberApprovalRequest($member));
+                }
+            }
+        } catch (\Throwable $e) {
+            // swallow notification errors to not break registration
+        }
 
         return response()->json([
             'success' => true,
-            'message' => 'User registered successfully',
+            'message' => 'Registration submitted and is pending admin approval',
             'data' => [
                 'user' => $user,
-                'token' => $token
+                'member' => $member,
             ]
         ], 201);
     }
@@ -53,11 +72,22 @@ class AuthController
     public function login(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'email' => 'required|email',
+            'identifier' => 'required|string', // email or phone or member_id
             'password' => 'required|string',
         ]);
 
-        $user = User::where('email', $validated['email'])->first();
+        $identifier = $validated['identifier'];
+
+        // Try find by email on users
+        $user = User::where('email', $identifier)->first();
+
+        // If not found by email, try member phone or member_id
+        if (!$user) {
+            $member = Member::where('phone', $identifier)->orWhere('member_id', $identifier)->first();
+            if ($member) {
+                $user = $member->user;
+            }
+        }
 
         if (!$user || !Hash::check($validated['password'], $user->password)) {
             return response()->json([
@@ -104,6 +134,24 @@ class AuthController
             'success' => true,
             'data' => $request->user()
         ]);
+    }
+
+    public function notifications(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $notes = $user->notifications()->orderBy('created_at', 'desc')->get();
+        return response()->json(['success' => true, 'data' => $notes]);
+    }
+
+    public function markNotificationRead(Request $request, $id): JsonResponse
+    {
+        $user = $request->user();
+        $note = $user->notifications()->where('id', $id)->first();
+        if (!$note) {
+            return response()->json(['success' => false, 'message' => 'Notification not found'], 404);
+        }
+        $note->markAsRead();
+        return response()->json(['success' => true, 'message' => 'Notification marked as read']);
     }
 
     public function updateProfile(Request $request): JsonResponse
