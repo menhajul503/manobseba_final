@@ -17,6 +17,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Auth routes
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/me', [AuthController::class, 'me']);
+    Route::get('/auth/notifications', [AuthController::class, 'notifications']);
+    Route::post('/auth/notifications/{id}/read', [AuthController::class, 'markNotificationRead']);
     Route::put('/auth/profile', [AuthController::class, 'updateProfile']);
     Route::get('/dashboard', [DashboardController::class, 'summary']);
 
@@ -24,6 +26,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('members', MemberController::class);
     Route::get('/members/village/{village}', [MemberController::class, 'getByVillage']);
     Route::get('/statistics/active-members', [MemberController::class, 'getActiveCount']);
+
+    // Admin member approval
+    Route::get('/admin/members/pending', [\App\Http\Controllers\Api\Admin\MemberApprovalController::class, 'pending']);
+    Route::post('/admin/members/{id}/approve', [\App\Http\Controllers\Api\Admin\MemberApprovalController::class, 'approve']);
 
     // Donations routes
     Route::apiResource('donations', DonationController::class);
