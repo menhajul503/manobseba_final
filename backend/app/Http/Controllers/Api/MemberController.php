@@ -11,7 +11,14 @@ class MemberController
     public function index(Request $request): JsonResponse
     {
         $perPage = (int) $request->query('per_page', 100);
-        $members = Member::with('user')->paginate($perPage);
+        // By default return only active (approved) members. Admins can request all by adding ?all=1
+        $query = Member::with('user');
+        $showAll = $request->query('all') == '1';
+        if (!$showAll || !$request->user() || !in_array($request->user()->role, ['admin', 'sub-admin'])) {
+            $query->where('status', 'Active');
+        }
+
+        $members = $query->paginate($perPage);
         return response()->json([
             'success' => true,
             'data' => $members

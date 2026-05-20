@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react'
 import apiClient from '../api/client'
 
 export default function LoginPage({ setIsAuthenticated }) {
@@ -16,8 +16,8 @@ export default function LoginPage({ setIsAuthenticated }) {
     setError('')
     setLoading(true)
 
-    try {
-      const response = await apiClient.post('/auth/login', { email, password })
+      try {
+      const response = await apiClient.post('/auth/login', { identifier: email, password })
       localStorage.setItem('authToken', response.data.token)
       localStorage.setItem('user', JSON.stringify(response.data.user))
       setIsAuthenticated(true)
@@ -80,7 +80,16 @@ export default function LoginPage({ setIsAuthenticated }) {
       {/* Right Side - Login Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12">
         <div className="w-full max-w-md">
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center gap-2 text-slate-700 dark:text-slate-300 hover:text-primary-green dark:hover:text-white mb-6 transition"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span className="text-sm font-medium">Back</span>
+          </button>
+
           <div className="card border-t-4 border-t-primary-green">
+        
             <h2 className="text-2xl font-bold text-slate-900 mb-2">Sign in</h2>
             <p className="text-slate-gray text-sm mb-6">As a member to manage community funds</p>
 
@@ -92,14 +101,14 @@ export default function LoginPage({ setIsAuthenticated }) {
 
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Email / Phone / Member ID</label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-gray" />
                   <input
-                    type="email"
+                    type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com"
+                    placeholder="email, phone or member id"
                     className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent"
                     required
                   />
